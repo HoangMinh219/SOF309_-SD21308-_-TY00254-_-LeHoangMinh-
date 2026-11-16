@@ -1,48 +1,29 @@
-# OS & Temp
-.DS_Store
-.AppleDouble
-.LSOverride
-Thumbs.db
-*.tmp
-*.log
-.dist/
+# Build
+target/
+*.class
+*.war
 
 # IDE
 .idea/
 *.iml
 .vscode/
-*.sublime-project
-
-# Java / Maven / Gradle
-target/
-build/
-bin/
-*.class
-*.jar
-*.war
-
-# Private / Lecturer materials (Không đưa lên Git của SV)
-*.pdf
-*.docx
-*.pptx
-*.xlsx
-Note.md
-HUONG_DAN_TRIEN_KHAI_ASSIGNMENT_GITHUB.md
-01-syllabus-guidelines/
-02-assignment-template/
-03-lecture-materials/
-05-ai-prompt-library/
-SOF304*
-
-# ==== Saltair: file cấu hình chứa mật khẩu/khóa bí mật (KHÔNG commit, repo đang Public) ====
-src/main/resources/db.properties
-src/main/resources/mail.properties
-src/main/resources/cloudinary.properties
-
-# Saltair: IDE / Tomcat / ảnh upload lúc chạy thử
-.smarttomcat/
-.vscode/
 .settings/
 .project
 .classpath
+.smarttomcat/
+
+# Cấu hình DB của từng máy (mỗi người một mật khẩu khác nhau)
+src/main/resources/db.properties
+
+# Cấu hình gửi mail (chứa mật khẩu ứng dụng, tuyệt đối không commit)
+src/main/resources/mail.properties
+
+# Khóa Cloudinary để lưu ảnh lên mây (chứa api_secret, tuyệt đối không commit)
+src/main/resources/cloudinary.properties
+
+# Ảnh upload lúc chạy thử
 uploads/
+
+# Hệ điều hành
+.DS_Store
+Thumbs.db

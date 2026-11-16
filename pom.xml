@@ -1,51 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.poly</groupId>
-    <artifactId>sof309-assignment</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <!-- Saltair là web Servlet/JSP chạy trên Tomcat 11 nên đóng gói dạng WAR -->
+    <groupId>com.fashionweb</groupId>
+    <artifactId>saltair</artifactId>
+    <version>1.0.0</version>
     <packaging>war</packaging>
-
-    <name>SOF309 Assignment - Saltair Fashion Web</name>
+    <name>Saltair</name>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <test.groups></test.groups>
+        <test.excludedGroups>ui,integration</test.excludedGroups>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <selenium.version>4.20.0</selenium.version>
     </properties>
 
     <dependencies>
-        <!-- ============================================== -->
-        <!-- [Y3] JUNIT 5 TESTING FRAMEWORK                -->
-        <!-- ============================================== -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- ============================================== -->
-        <!-- [Y4] SELENIUM WEBDRIVER CHO UI AUTOMATION     -->
-        <!-- ============================================== -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- ============================================== -->
-        <!-- [Y1] THƯ VIỆN CỦA WEB SALTAIR (Servlet/JSP)   -->
-        <!-- ============================================== -->
         <!-- Tomcat 10.1+ / 11 dùng Jakarta EE (jakarta.*) -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -79,42 +52,64 @@
             <version>9.1.0</version>
         </dependency>
 
-        <!-- Gửi email qua SMTP (đăng nhập bằng mã 6 số) -->
+        <!-- Gửi email qua SMTP (chức năng Quên mật khẩu). Kéo theo jakarta.mail-api và jakarta.activation -->
         <dependency>
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-mail</artifactId>
             <version>2.0.3</version>
+        </dependency>
+
+        <!-- Kiểm thử tự động: JUnit 5 (chỉ dùng khi chạy mvn test, không đóng gói vào file war) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Kiểm thử giao diện (SOF309): Selenium, chỉ chạy khi bật profile ui -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.20.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <finalName>saltair</finalName>
         <plugins>
-            <!-- Đóng gói WAR để deploy lên Tomcat 11 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
             </plugin>
-
-            <!-- Maven Compiler Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
-            </plugin>
-
-            <!-- Maven Surefire Plugin để tự động chạy Test -->
+            <!-- Chạy test JUnit 5 khi gọi mvn test -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration>
+                    <!-- Mặc định chỉ chạy unit test; test ui cần web đang chạy nên tách ra profile riêng -->
+                    <groups>${test.groups}</groups>
+                    <excludedGroups>${test.excludedGroups}</excludedGroups>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-</project>
 
+    <profiles>
+        <!-- mvn test -Pui : chỉ chạy test giao diện Selenium (web phải đang chạy ở localhost:8080/saltair) -->
+        <profile>
+            <id>ui</id>
+            <properties>
+                <test.groups>ui</test.groups>
+                <test.excludedGroups>none</test.excludedGroups>
+            </properties>
+        </profile>
+    </profiles>
+</project>
