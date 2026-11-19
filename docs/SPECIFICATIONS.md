@@ -3,13 +3,6 @@
 
 ---
 
-## 1. THÔNG TIN DỰ ÁN
-* **Môn học:** SOF309 - Kiểm thử nâng cao cùng AI · **Lớp:** SD21308
-* **Sinh viên:** Lê Hoàng Minh · **MSSV:** TY00254
-* **Repo:** `HoangMinh219/SOF309_-SD21308-_-TY00254-_-LeHoangMinh-`
-* **Web được kiểm thử:** Saltair - website bán quần áo basic unisex (đồ án JAV102, kế thừa từ repo nhóm `nhan0x/saltair-fashion-web`).
-* **Nghiệp vụ chi tiết** (role, chức năng, trạng thái đơn, voucher, phí ship): [`project.md`](../project.md)
-
 ## 2. CÔNG NGHỆ & CÁCH CHẠY
 * **Ngôn ngữ / nền tảng:** Java 17, Jakarta EE (`jakarta.*`): Servlet 6.1, JSP 4, JSTL 3 + EL. Không dùng Spring.
 * **Máy chủ:** Apache Tomcat 11. Đóng gói Maven WAR (`target/saltair.war`).
